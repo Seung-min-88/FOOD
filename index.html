@@ -67,7 +67,50 @@
             width: 100%;
         }
     </style>
-    <script>
+    <script type="module">
+        // Firebase SDK 라이브러리 가져오기
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional 나의 데이터 베이스
+        const firebaseConfig = {
+            apiKey: "AIzaSyApYJk8pmgeqAyaB_LrVY_u9Sw4LGmaiSU",
+            authDomain: "sparta-9078c.firebaseapp.com",
+            projectId: "sparta-9078c",
+            storageBucket: "sparta-9078c.firebasestorage.app",
+            messagingSenderId: "651669167076",
+            appId: "1:651669167076:web:64b82fc181ebfab8c4c5f1",
+            measurementId: "G-QDG9GDTNEV"
+        };
+
+
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+
+
+        $("#recoding").click(async function () {
+            let image = $('#image').val();
+            let title = $('#title').val();
+            let star = $('#ster').val();
+            let comment = $('#comment').val();
+
+
+            let doc = {
+                'image': image,
+                'title': title,
+                'star': ster,
+                'comment': comment
+            };
+            await addDoc(collection(db, "movies"), doc);
+            alert('저장 완료!');
+            window.location.reload();
+        })
+
         $(document).ready(function () {
             let url = "http://spartacodingclub.shop/sparta_api/weather/seoul";
             fetch(url).then(res => res.json()).then(data => {
@@ -75,38 +118,7 @@
                 $('#weather').text(temp);
             })
         })
-
-        /*let a = 5;
-        let b = 3;
-        console.log(a+b);개발자들이 보기위해서*/
-
-        /*let a = ['사과', '배','수박']; //[1]을 하면 1번에 있는 배를 출력
-        console.log(a[1]);*/
-
-        /*let person = {'name' : 'bob', 'age' : 30, 'height' : 180};
-        //console.log(person['name']);
-        let name = person['name'];
-        let age = person['age'];
-        console.log(name, age);*/
-
-        /*let ages = [15, 24, 45, 67, 3];
-
-        ages.forEach(a => {
-            if (a < 20) {
-                console.log('청소년입니다.')
-            } else {
-                console.log('성인입니다.')
-            }
-        });*/
-
-        /*function hey() {
-            alert('안녕하세요'); 출력함수
-        }*/
-
-        /*function hey() {
-            $('#title').text('쥬라기 월드');
-        }*/
-
+    
         function openclose() {
             $('#postingbox').toggle();
         }
@@ -114,9 +126,10 @@
         function makeCard() {
             let image = $('#image').val();
             let title = $('#title').val();
-            let comment = $('#comment').val();
             let star = $('#star').val();
+            let comment = $('#comment').val();
             
+
             let temp_html = `
             <div class="col">
                 <div class="card h-100">
@@ -173,7 +186,7 @@
                 <h1 class="display-5 fw-bold">킹덤</h1>
                 <p class="col-md-8 fs-4">병든 왕을 둘러싸고 흉흉한 소문이 떠돈다. 어둠에 뒤덮인 조선, 기이한 역병에 신음하는 산하. 정체 모를 악에 맞서 백성을 구원할 희망은 오직
                     세자뿐이다.</p>
-                <button onclick="openclose()" type="button" class="btn btn-outline-light">영화 기록하기</button>
+                <button id="recoding" type="button" class="btn btn-outline-light">영화 기록하기</button>
                 <button type="button" class="btn btn-outline-light">상세정보</button>
             </div>
         </div>
@@ -203,7 +216,7 @@
             <input type="email" class="form-control" id="comment" placeholder="추천 이유">
             <label for="floatingInput">추천 이유</label>
         </div>
-        <button onclick="makeCard()" type= "button" class="btn btn-danger">기록하기</button>
+        <button id="recoding" type="button" class="btn btn-danger">기록하기</button>
     </div>
 
     <div class="mycards">
